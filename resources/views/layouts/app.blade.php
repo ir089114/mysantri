@@ -11,8 +11,22 @@
         <nav>
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="/santri">Santri</a></li>
-                <li><a href="/admin">Admin</a></li>
+                @auth
+                    @if(auth()->user()->role === 'santri')
+                        <li><a href="/santri/dashboard">Dashboard Santri</a></li>
+                    @elseif(auth()->user()->role === 'admin')
+                        <li><a href="/admin/dashboard">Dashboard Admin</a></li>
+                    @endif
+                    <li>
+                        <form action="/logout" method="POST" style="display: inline;">
+                            @csrf
+                            <button type="submit">Logout</button>
+                        </form>
+                    </li>
+                @else
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Register</a></li>
+                @endauth
             </ul>
         </nav>
     </header>
